@@ -3,6 +3,8 @@ package com.auth.full.Service;
 import com.auth.full.Entity.UserInfo;
 import com.auth.full.Model.UserInfoDto;
 import com.auth.full.Repository.UserRepository;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +15,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
+@AllArgsConstructor
+@Data
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
@@ -20,6 +24,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
