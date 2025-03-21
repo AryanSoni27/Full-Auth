@@ -42,7 +42,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         String userId = UUID.randomUUID().toString();
         userRepository.save(new UserInfo(userId, userInfoDto.getUserName(),
                 userInfoDto.getPassword(), new HashSet<>()));
-
         return true;
     }
 }
