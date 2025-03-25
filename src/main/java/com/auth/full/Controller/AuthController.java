@@ -2,7 +2,7 @@ package com.auth.full.Controller;
 
 import com.auth.full.Entity.RefreshToken;
 import com.auth.full.Model.UserInfoDto;
-import com.auth.full.Response.JwtResponseDto;
+import com.auth.full.Response.JwtResponseDTO;
 import com.auth.full.Service.JwtService;
 import com.auth.full.Service.RefreshTokenService;
 import com.auth.full.Service.UserDetailsServiceImpl;
@@ -31,13 +31,13 @@ public class AuthController
     @PostMapping("auth/v1/signup")
     public ResponseEntity SignUp(@RequestBody UserInfoDto userInfoDto){
         try{
-            Boolean isSignUped = userDetailsService.signUpUser(userInfoDto);
+            Boolean isSignUped = userDetailsService.signupUser(userInfoDto);
             if(Boolean.FALSE.equals(isSignUped)){
                 return new ResponseEntity<>("Already Exist", HttpStatus.BAD_REQUEST);
             }
-            RefreshToken refreshToken = refreshTokenService.createRefreshToken(userInfoDto.getUserName());
-            String jwtToken = jwtService.GenerateToken(userInfoDto.getUserName());
-            return new ResponseEntity<>(JwtResponseDto.builder().accessToken(jwtToken).
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(userInfoDto.getUsername());
+            String jwtToken = jwtService.GenerateToken(userInfoDto.getUsername());
+            return new ResponseEntity<>(JwtResponseDTO.builder().accessToken(jwtToken).
                     token(refreshToken.getToken()).build(), HttpStatus.OK);
         }catch (Exception ex){
             return new ResponseEntity<>("Exception in User Service", HttpStatus.INTERNAL_SERVER_ERROR);

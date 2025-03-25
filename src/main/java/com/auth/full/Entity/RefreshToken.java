@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-@TableGenerator(name = "tokens")
+@Table(name = "tokens")
 public class RefreshToken {
 
     @Id

@@ -1,7 +1,7 @@
 package com.auth.full.Service;
 
 import com.auth.full.Entity.UserInfo;
-import com.auth.full.Entity.UserRoles;
+import com.auth.full.Entity.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CustomUserDetails extends UserInfo implements UserDetails {
+public class CustomUserDetails extends UserInfo
+        implements UserDetails
+{
 
-    private String userName;
-
+    private String username;
     private String password;
-
     Collection<? extends GrantedAuthority> authorities;
 
-    public CustomUserDetails(UserInfo byUserName){
-        this.userName = byUserName.getUserName();
-        this.password = byUserName.getPassword();
+    public CustomUserDetails(UserInfo byUsername) {
+        this.username = byUsername.getUsername();
+        this.password= byUsername.getPassword();
         List<GrantedAuthority> auths = new ArrayList<>();
 
-        for(UserRoles role : byUserName.getRoles()){
+        for(UserRole role : byUsername.getRoles()){
             auths.add(new SimpleGrantedAuthority(role.getName().toUpperCase()));
         }
         this.authorities = auths;
@@ -41,7 +41,7 @@ public class CustomUserDetails extends UserInfo implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return username;
     }
 
     @Override

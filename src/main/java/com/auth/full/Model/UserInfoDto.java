@@ -4,15 +4,17 @@ import com.auth.full.Entity.UserInfo;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-public class UserInfoDto extends UserInfo {
+@JsonNaming (PropertyNamingStrategy.SnakeCaseStrategy.class)
+public class UserInfoDto extends UserInfo
+{
 
-    private String userName;
+    private String firstName; // first_name
 
-    private String lastName;
+    private String lastName; //last_name
 
     private Long phoneNumber;
 
-    private String email;
+    private String email; // email
+
 
 }

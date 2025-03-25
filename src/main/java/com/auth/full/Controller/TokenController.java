@@ -1,9 +1,9 @@
 package com.auth.full.Controller;
 
 import com.auth.full.Entity.RefreshToken;
-import com.auth.full.Request.AuthRequestDto;
-import com.auth.full.Request.RefreshTokenRequestDto;
-import com.auth.full.Response.JwtResponseDto;
+import com.auth.full.Request.AuthRequestDTO;
+import com.auth.full.Request.RefreshTokenRequestDTO;
+import com.auth.full.Response.JwtResponseDTO;
 import com.auth.full.Service.JwtService;
 import com.auth.full.Service.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +30,12 @@ public class TokenController
     private JwtService jwtService;
 
     @PostMapping("auth/v1/login")
-    public ResponseEntity AuthenticateAndGetToken(@RequestBody AuthRequestDto authRequestDTO){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUserName(), authRequestDTO.getPassword()));
+    public ResponseEntity AuthenticateAndGetToken(@RequestBody AuthRequestDTO authRequestDTO){
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword()));
         if(authentication.isAuthenticated()){
-            RefreshToken refreshToken = refreshTokenService.createRefreshToken(authRequestDTO.getUserName());
-            return new ResponseEntity<>(JwtResponseDto.builder()
-                    .accessToken(jwtService.GenerateToken(authRequestDTO.getUserName()))
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(authRequestDTO.getUsername());
+            return new ResponseEntity<>(JwtResponseDTO.builder()
+                    .accessToken(jwtService.GenerateToken(authRequestDTO.getUsername()))
                     .token(refreshToken.getToken())
                     .build(), HttpStatus.OK);
 
@@ -45,13 +45,13 @@ public class TokenController
     }
 
     @PostMapping("auth/v1/refreshToken")
-    public JwtResponseDto refreshToken(@RequestBody RefreshTokenRequestDto refreshTokenRequestDTO){
+    public JwtResponseDTO refreshToken(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO){
         return refreshTokenService.findByToken(refreshTokenRequestDTO.getToken())
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getUserInfo)
                 .map(userInfo -> {
-                    String accessToken = jwtService.GenerateToken(userInfo.getUserName());
-                    return JwtResponseDto.builder()
+                    String accessToken = jwtService.GenerateToken(userInfo.getUsername());
+                    return JwtResponseDTO.builder()
                             .accessToken(accessToken)
                             .token(refreshTokenRequestDTO.getToken()).build();
                 }).orElseThrow(() ->new RuntimeException("Refresh Token is not in DB..!!"));

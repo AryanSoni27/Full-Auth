@@ -11,17 +11,17 @@ import java.util.Set;
 
 @Entity
 @Data
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@TableGenerator(name = "users")
+@Table(name = "users")
 public class UserInfo {
 
     @Id
     @Column(name = "user_id")
     private String userId;
 
-    private String userName;
+    private String username;
 
     private String password;
 
@@ -32,5 +32,6 @@ public class UserInfo {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
 
-    private Set<UserRoles> roles = new HashSet<>();
+    private Set<UserRole> roles = new HashSet<>();
+
 }
